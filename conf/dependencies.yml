@@ -1,0 +1,48 @@
+self: play -> common 1.0
+
+require:
+    - play
+    - delving -> scala 0.9.1_20111028
+    - com.mongodb.casbah -> casbah_2.8.1 2.1.5.0:
+        exclude:
+            - org.scala-lang -> *
+    - com.novus -> salat-core_2.8.1 0.0.8-SNAPSHOT:
+        exclude:
+            - org.scala-lang -> scala-library
+            - org.scala-lang -> scala-compiler
+    - com.codahale -> jerkson_2.8.1 0.4.2-SNAPSHOT:
+        exclude:
+            - org.scala-lang -> scala-library
+
+    # for testing
+    - com.borachio -> borachio_2.8.1 1.1:
+        exclude:
+            - org.scala-lang -> scala-library
+            - org.scalatest -> *
+
+repositories:
+    - scala-tools:
+        type: iBiblio
+        root: "http://scala-tools.org/repo-releases/"
+        contains:
+            - com.mongodb.casbah.*
+            - org.scalaj.*
+            - com.borachio.*
+            - org.specs2.*
+            - net.debasishg.*
+            - net.databinder.*
+    - codahale:
+        type: iBiblio
+        root: "http://repo.codahale.com/"
+        contains:
+            - com.codahale.*
+    - novus:
+        type: iBiblio
+        root: "http://repo.novus.com/snapshots/"
+        contains:
+            - com.novus.*
+    - delving-modules:
+        type:       http
+        artifact:   "http://development.delving.org/dist/[module]-[revision].zip"
+        contains:
+            - delving -> *
