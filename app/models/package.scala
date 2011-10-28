@@ -12,7 +12,7 @@ package object models {
 
   ctx.registerClassLoader(Play.classloader)
 
-  def connection(connectionName: String): MongoDB  = if (Play.configuration.getProperty("mongo.test.context", "true").toBoolean || Play.mode == Play.Mode.DEV) {
+  def createConnection(connectionName: String): MongoDB  = if (Play.configuration.getProperty("mongo.test.context", "true").toBoolean || Play.mode == Play.Mode.DEV) {
     Logger.info("Starting Mongo in Test Mode connecting to localhost:27017")
     MongoConnection()(connectionName)
   }

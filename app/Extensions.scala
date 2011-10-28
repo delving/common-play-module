@@ -8,10 +8,10 @@ import org.codehaus.jackson.{Version, JsonParser, JsonGenerator}
 import play.mvc._
 import play.mvc.Http.{Response, Request}
 import results.{Result, RenderJson}
-import extensions.JJson
 import play.data.binding.TypeBinder
 import java.lang.annotation.Annotation
 import java.lang.reflect.Type
+import play.Logger
 
 /**
  * This trait provides additional actions that can be used in controllers
@@ -19,12 +19,22 @@ import java.lang.reflect.Type
 trait Extensions {
   self: Controller =>
 
-  def Json(data: AnyRef): Result = new RenderJson() {
+  override def Json(data: AnyRef): RenderJson = new RenderJson() {
     override def apply(request: Request, response: Response) {
       val encoding = getEncoding
       setContentTypeIfNotSet(response, "application/json; charset=" + encoding)
       response.out.write(JJson.generate(data).getBytes(encoding))
     }
+  }
+
+  def LoggedError(msg: String): Result = {
+    Logger.error(msg)
+    Error(msg)
+  }
+
+  def LoggedNotFound(msg: String): Result = {
+    Logger.error(msg)
+    NotFound(msg)
   }
 }
 

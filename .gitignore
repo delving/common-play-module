@@ -2,4 +2,5 @@ logs/
 lib/
 modules/
 tmp/
+*.pyc
 *.iws
