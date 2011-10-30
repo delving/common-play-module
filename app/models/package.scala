@@ -1,4 +1,4 @@
-import com.mongodb.casbah.{MongoConnection, MongoDB}
+import com.mongodb.casbah.{MongoOptions, MongoConnection, MongoDB}
 import com.mongodb.ServerAddress
 import com.novus.salat.Context
 import play.Play
@@ -12,17 +12,19 @@ package object models {
 
   ctx.registerClassLoader(Play.classloader)
 
+  val mongoOptions = MongoOptions(connectionsPerHost = 50)
+
   def createConnection(connectionName: String): MongoDB  = if (Play.configuration.getProperty("mongo.test.context", "true").toBoolean || Play.mode == Play.Mode.DEV) {
     Logger.info("Starting Mongo in Test Mode connecting to localhost:27017")
     MongoConnection()(connectionName)
   }
   else if (mongoServerAddresses.isEmpty || mongoServerAddresses.size > 2) {
     Logger.info("Starting Mongo in Replicaset Mode connecting to %s".format(mongoServerAddresses.mkString(", ")))
-    MongoConnection(mongoServerAddresses)(connectionName)
+    MongoConnection(mongoServerAddresses, mongoOptions)(connectionName)
   }
   else {
     Logger.info("Starting Mongo in Single Target Mode connecting to %s".format(mongoServerAddresses.head.toString))
-    MongoConnection(mongoServerAddresses.head)(connectionName)
+    MongoConnection(mongoServerAddresses.head, mongoOptions)(connectionName)
   }
 
   lazy val mongoServerAddresses: List[ServerAddress] = {
