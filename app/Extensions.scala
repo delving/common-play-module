@@ -19,6 +19,8 @@ import play.Logger
 trait Extensions {
   self: Controller =>
 
+  play.data.binding.Binder.register(classOf[org.bson.types.ObjectId], new ObjectIdBinder())
+
   override def Json(data: AnyRef): RenderJson = new RenderJson() {
     override def apply(request: Request, response: Response) {
       val encoding = getEncoding
