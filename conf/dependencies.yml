@@ -1,4 +1,4 @@
-self: play -> common 1.0
+self: play -> common 1.1
 
 require:
     - play
