@@ -12,7 +12,8 @@ package object models {
 
   ctx.registerClassLoader(Play.classloader)
 
-  val mongoOptions = MongoOptions(connectionsPerHost = 50)
+  val connectionsPerHost = play.Play.configuration.getProperty("mongo.connectionsPerHost", 10)
+  val mongoOptions = MongoOptions(connectionsPerHost = connectionsPerHost)
 
   def createConnection(connectionName: String): MongoDB  = if (Play.configuration.getProperty("mongo.test.context", "true").toBoolean || Play.mode == Play.Mode.DEV) {
     Logger.info("Starting Mongo in Test Mode connecting to localhost:27017")
