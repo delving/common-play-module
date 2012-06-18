@@ -45,7 +45,7 @@ package object models {
   }
 
   lazy val mongoServerAddresses: List[ServerAddress] = {
-    List(1, 2, 3).map {
+    List(1).map {
       serverNumber =>
         val host = Play.configuration.getProperty("mongo.server%d.host".format(serverNumber)).stripMargin
         val port = Play.configuration.getProperty("mongo.server%d.port".format(serverNumber)).stripMargin
